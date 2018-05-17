@@ -1,11 +1,5 @@
-alembic==0.9.9
-brotlipy==0.7.0
-coverage==4.5.1
-Flask==1.0.2
-Flask-Migrate==2.1.1
-Flask-SQLAlchemy==2.3.2
-gunicorn==19.8.1
+coverage==4.4.1
+Django==2.0
+gunicorn==19.7.1
+pytz==2017.2
 psycopg2==2.7.4
-pycparser==2.18
-pytz==2018.4
-requests==2.18.4
