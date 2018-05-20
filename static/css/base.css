@@ -1,0 +1,177 @@
+/* Font family definition: you can add custom fonts here */
+@font-face {
+    font-family: Comic Sans MS;
+    src: url(/static/fonts/ComicSansMS-Regular-webfont.woff)
+}
+@font-face{
+	font-family: Consolas;
+	src: url(/static/fonts/Consolas-Regular-webfont.woff)
+}
+@font-face {
+    font-family: Roboto;
+    src: url(/static/fonts/Roboto-Regular-webfont.woff)
+}
+@font-face {
+    font-family: Segoe Print;
+    src: url(/static/fonts/SegoePrint-Regular-webfont.woff)
+}
+@font-face{
+	font-family:Segoe UI;
+	src:url(/static/fonts/SegoeUI-Regular-webfont.woff)
+}
+
+/* Animation definitions */
+
+
+/* CSS definition for regular screen size */
+/* Main body */
+html {
+    background: "/static/img/background.jpg";
+    background-repeat:no-repeat;
+    background-position:center center;
+    background-size:cover
+}
+html, body, content {
+    min-height: 100%;
+    width: 100%;
+    min-width: 100%;
+    max-width: 100%;
+    transition: all 0.3s ease !important;
+}
+body {
+    font-family: Segoe Print
+}
+.container {
+    transition: all 0.3s ease !important;
+}
+/* Navbar */
+.dropdown-menu, .nav-item, .nav-link, .navbar-brand, .navbar-nav {
+    font-family: Segoe Print;
+    font-size: 13px
+}
+.navbar-collapse {
+    margin: 5px 0;
+}
+.nav-item {
+    padding: 0 10px
+}
+.nav-dd-item {
+    white-space: nowrap
+}
+.navbar-toggler {
+    padding: 3px 5px;
+}
+.dropdown-menu li a.nav-item {
+    padding: 3px 20px
+}
+nav .nav-item:hover {
+    background-color: rgba(127,255,127,0.2);
+    border-radius: 10px
+}
+.navbar-brand:hover {
+    letter-spacing: 0.25px;
+    text-shadow: 0 0 10px rgba(0,255,0,0.8)
+}
+/* Content */
+h1 {
+	font-family: Comic Sans MS;
+}
+content {
+    overflow-x: hidden;
+    overflow-y: auto
+}
+section {
+	margin: 20px 0px;
+}
+.profile {
+	border-radius: 50%;
+}
+.profile-s {
+	margin-left: 5px;
+	height: 20px;
+	width: 20px;
+}
+.profile-m {
+	height: 50px;
+	width: 50px;
+}
+.profile-l {
+	height: 80px;
+	width: 80px;
+}
+.profile-xl {
+	height: 160px;
+	width: 160px;
+}
+table, td, th {
+	margin-top: 30px;
+    word-wrap: break-word;
+    font-size: 13px
+}
+.content-out {
+    margin-top: 70px;
+    margin-bottom:120px
+}
+.flex-item {
+	margin: 5px
+}
+.nav-tabs .nav-item {
+    padding: 0
+}
+
+.nav-tabs {
+    margin-top: 10px;
+}
+.post-header, .post-content, .post-date {
+	margin: 5px
+}
+.post-date {
+    font-family: Consolas;
+	font-size: 12px
+}
+iframe {
+    padding:0;
+    width:100%;
+    height:1000px;
+}
+
+
+/* Footer */
+p.copyright {
+    text-align: center;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 15px 0 10px;
+    margin: 0;
+    font-size: 12px
+}
+
+/* Special rules for certain screen sizes */
+@media only screen and (max-width:480px){
+    html {
+        font-size: 13px;
+    }
+    .content-out {
+        margin-top: 50px;
+    }
+    .profile-m {
+        height: 30px;
+        width: 30px;
+    }
+    .profile-l {
+        height: 50px;
+        width: 50px;
+    }
+    .profile-xl {
+        height: 80px;
+        width: 80px;
+    }
+    .post-date {
+        font-size: 10px
+    }
+    .nav-tabs .nav-link {
+        padding: 6px
+    }
+}

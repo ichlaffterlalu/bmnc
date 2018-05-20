@@ -1,0 +1,37 @@
+{% load staticfiles %}
+<nav class="navbar navbar-default navbar-expand-lg fixed-top navbar-dark" id="navbar">
+	<div class="container">
+		<a class="navbar-brand" href="/"><b>Project-Kirito</b></a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarNav">
+			<ul class="navbar-nav ml-auto">
+				{% if login %}
+				<li class="nav-item">
+					<a class="nav-link" href="" data-toggle="tooltip" title="Lihat berita-berita terkait kehidupan kampus.">Berita</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="" data-toggle="tooltip" title="Ikutlah dalam berbagai polling menarik.">Polling</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="" data-toggle="tooltip" title="Lihat profil anda.">{{narasumber.nama}}</a>
+				</li>
+				<li class="nav-item" style="background:#f00">
+					<a class="nav-link" href="" data-toggle="tooltip" title="Keluarkan akun anda dari sesi ini.">Logout</a>
+				</li>
+				{% else %}
+				<li class="nav-item">
+					<a class="nav-link" href="" data-toggle="tooltip" title="Lihat profil anda.">Anonymous</a>
+				</li>
+				<li class="nav-item" style="background:#0f0">
+					<a class="nav-link" href="" data-toggle="tooltip" title="Daftarkan diri anda!">Register</a>
+				</li>
+				<li class="nav-item" style="background:#0f0">
+						<a class="nav-link" href="" data-toggle="tooltip" title="Masuk untuk merasakan BMNC lebih dalam lagi.">Login</a>
+				</li>
+				{% endif %}
+			</ul>
+		</div>
+	</div>
+</nav>

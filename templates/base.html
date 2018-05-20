@@ -1,0 +1,45 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang=en>
+	<head>
+		<meta charset=UTF-8>
+		<meta name=viewport content="width=device-width, initial-scale=1.0">
+		<meta name=viewport content="width=device-width, initial-scale=1">
+		<meta http-equiv=X-UA-Compatible content="IE=edge">
+		<meta name="author" content="Kelompok 3 Basis Data Kelas A Genap 2017/2018">
+		{% block meta %}{% endblock %}
+
+		{% block stylescript %}
+        <link rel=stylesheet href="{% static 'css/bootstrap-4.0.0.min.css' %}">
+        <link rel=stylesheet href="{% static 'css/bootstrap-grid-4.0.0.min.css' %}">
+        <link rel=stylesheet href="{% static 'css/bootstrap-reboot-4.0.0.min.css' %}">
+		{% endblock %}
+		<link rel=stylesheet href="{% static 'css/base.css' %}">
+        <link rel=stylesheet id="theme-css" href="{% static 'css/theme-dark.css' %}">
+        {% block stylescript_app %}{% endblock %}
+        {% block stylescript_page %}{% endblock %}
+
+		<title>{% block title %}Selamat Datang di Biru Merah News Corporation!{% endblock %} - BMNC</title>
+		<style>{% block style %}{% endblock %}</style>
+</head>
+<body>
+	<div class="main-container">
+		<header>
+			{% block header %}{% endblock %}
+		</header>
+		<content>
+			<div class="content-out">{% block content %}{% endblock %}</div>
+		</content>
+		<footer>
+			{% block footer %}{% endblock %}
+		</footer>
+	</div>
+</body>
+{% block scripts %}
+	<script type=application/javascript src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+	<script type=application/javascript src="{% static 'js/popper.min.js' %}"></script>
+	<script type=application/javascript src="{% static 'js/bootstrap-4.0.0.bundle.min.js' %}"></script>
+{% endblock %}
+{% block scripts_app %}{% endblock %}
+{% block scripts_page %}{% endblock %}
+</html>
