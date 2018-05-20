@@ -159,3 +159,5 @@ chromedriver
 chromedriver.exe
 /kirito/static/*
 nppBackup
+
+.vscode/*

@@ -1,5 +1,67 @@
 from django.shortcuts import render
+from django.urls import reverse
+from django.http import HttpResponseRedirect
+from django.db import connection
+import datetime
 
-# Create your views here.
 def index(request):
-    pass
+    # todo : get narasumber data
+    is_narasumber = True
+
+    if is_narasumber:
+        html = 'berita/berita.html'
+        response = {}
+        return render(request, html, response)
+
+    return HttpResponseRedirect('/')
+
+def tambah_berita(request):
+    # todo : get narasumber data
+    is_narasumber = True
+
+    if is_narasumber:
+        if request.method == 'GET':
+            response = {}
+
+            if 'tambah_berita' in request.session:
+                response['tambah_berita'] = request.session.get('tambah_berita')
+                del request.session['tambah_berita']
+
+            html = 'berita/membuat_berita.html'
+            return render(request, html, response)
+            
+        elif request.method == 'POST':
+            judul = request.POST.get('judul', '')[:100]
+            url = request.POST.get('url', '')[:50]
+            topik = request.POST.get('topik', '')[:100]
+            try:
+                jumlah_kata = int(request.POST.get('jumlah_kata'))
+            except:
+                jumlah_kata = 0
+            tag = request.POST.get('tag', '')
+
+            tag_list = [i.strip()[:50] for i in tag.split(';') if i.strip() != '']
+            created_at = datetime.datetime.now()
+            updated_at = datetime.datetime.now()
+            rerata_rating = 0
+            id_universitas = 1 # todo : change from narasumber
+
+            c = connection.cursor()
+            try:
+                c.execute('INSERT INTO Berita(url, judul, topik, created_at, \
+                    updated_at, jumlah_kata, rerata_rating, id_universitas) \
+                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s);', 
+                    [url, judul, topik, created_at, updated_at, \
+                    jumlah_kata, rerata_rating, id_universitas])
+                for i in tag_list:
+                    c.execute('INSERT INTO Tag(url_berita, tag) \
+                        VALUES (%s, %s);', [url, i])
+                request.session['tambah_berita'] = 'Berhasil menambah berita'
+            except:
+                request.session['tambah_berita'] = 'Error ketika menambah berita (url sudah ada)'
+            finally:
+                c.close()
+
+            return HttpResponseRedirect(reverse('berita:tambah_berita'))
+
+    return HttpResponseRedirect('/')
