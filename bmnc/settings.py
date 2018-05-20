@@ -81,6 +81,9 @@ DATABASES = {
         'PASSWORD': 'aerah9Sh',
         'HOST': 'dbpg.cs.ui.ac.id',
         'PORT': '',
+        'OPTIONS': {
+            'options': '-c search_path=bmnc'
+        },
     }
 }
 
