@@ -13,9 +13,18 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from django.conf.urls import url, include
 from django.contrib import admin
-from django.urls import path
+from django.views.generic.base import RedirectView
+from django.conf import settings
+from django.conf.urls.static import static
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-]
+    url(r'^admin/', admin.site.urls),
+	url(r'^akun/', include(akun.urls, namespace='akun')),
+	url(r'^berita/', include(berita.urls, namespace='berita')),
+	url(r'^profil/', include(profil.urls, namespace='profil')),
+	url(r'^polling/', include(polling.urls, namespace='polling')),
+	url(r'^$', RedirectView.as_view(url="/", permanent="False"), name='index')
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
