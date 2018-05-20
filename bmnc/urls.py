@@ -20,11 +20,16 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
+import akun.urls as akun
+import berita.urls as berita
+import profil.urls as profil
+import polling.urls as polling
+
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-	url(r'^akun/', include(akun.urls, namespace='akun')),
-	url(r'^berita/', include(berita.urls, namespace='berita')),
-	url(r'^profil/', include(profil.urls, namespace='profil')),
-	url(r'^polling/', include(polling.urls, namespace='polling')),
+	url(r'^akun/', include(akun)),
+	url(r'^berita/', include(berita)),
+	url(r'^profil/', include(profil)),
+	url(r'^polling/', include(polling)),
 	url(r'^$', RedirectView.as_view(url="/", permanent="False"), name='index')
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
