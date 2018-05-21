@@ -1,22 +1,45 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <link href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
-
-    <title>Berita</title>
-</head>
-
-<body>
-    <div class="container">
-		<div class="row">
-            <ul class="list-group">
-                <li class="list-group-item list-group-item-success"><center>Berita</center></li>
-                <a href="{% url 'berita:tambah_berita' %}"><li class="list-group-item"><center>Tambah Berita</center></li></a>
-            </ul>
-		</div>
+{% extends "base.html" %}
+{% block title %}Berita{% endblock %}
+{% block content %}
+    <div class="py-3">
+        <div class="container">
+            {% if is_narasumber %}
+            <a class="btn btn-dark float-right" href="{% url 'berita:tambah_berita' %}"><center>Tambah Berita</center></a>
+            {% endif %}
+            <div class="row">
+            <div class="col-md-12">
+                <h1 class="w-100 text-center text-uppercase text-white">
+                    <b>Daftar Berita</b>
+                </h1>
+            </div>
+            </div>
+        </div>
     </div>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script type="application/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-</body>
-</html>
+    <div class="py-5">
+        <div class="container">
+            <div class="row">
+                {% for tag, berita_tag in daftar_berita.items %}
+                <div class="col-md-4 col-xs-6 py-2">
+                    <h3 class="text-white text-center">{{tag}}</h3>
+                    <div class="col-md-12">
+                        <div class="list-group">
+                            {% for berita in berita_tag %}
+                            <a class="list-group-item list-group-item-action flex-column align-items-start" href="{{berita.url}}">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1">{{berita.judul}}</h5>
+                                <small>{{berita.created_at}}</small>
+                            </div>
+                            <small>{{berita.id_universitas.id}} - {{berita.id_universitas.provinsi}} University</small>
+                            <p class="mb-1">Topik: {{berita.topik}}.<br>Jumlah kata: {{berita.jumlah_kata}}.<br>Rerata rating: {{berita.rerata_rating}}</p>
+                            <small>Klik untuk melihat berita.</small>
+                            <small class="float-right">{{berita.updated_at}}</small>
+                            </a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

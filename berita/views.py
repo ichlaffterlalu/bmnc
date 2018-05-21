@@ -4,16 +4,24 @@ from django.http import HttpResponseRedirect
 from django.db import connection
 import datetime
 
+from .models import Berita, Tag
+
 def index(request):
     # todo : get narasumber data
     is_narasumber = True
 
-    if is_narasumber:
-        html = 'berita/berita.html'
-        response = {}
-        return render(request, html, response)
+    daftar_berita_raw = Tag.objects.raw("SELECT * FROM TAG;")
+    daftar_berita = {}
 
-    return HttpResponseRedirect('/')
+    for item in daftar_berita_raw:
+        if daftar_berita.get(item.tag) == None:
+            daftar_berita[item.tag] = [item.url_berita]
+        else:
+            daftar_berita.get(item.tag).append(item.url_berita)
+
+    html = 'berita/berita.html'
+    response = {"is_narasumber":is_narasumber, "daftar_berita":daftar_berita}
+    return render(request, html, response)
 
 def tambah_berita(request):
     # todo : get narasumber data
@@ -29,7 +37,7 @@ def tambah_berita(request):
 
             html = 'berita/membuat_berita.html'
             return render(request, html, response)
-            
+
         elif request.method == 'POST':
             judul = request.POST.get('judul', '')[:100]
             url = request.POST.get('url', '')[:50]
@@ -50,7 +58,7 @@ def tambah_berita(request):
             try:
                 c.execute('INSERT INTO Berita(url, judul, topik, created_at, \
                     updated_at, jumlah_kata, rerata_rating, id_universitas) \
-                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s);', 
+                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s);',
                     [url, judul, topik, created_at, updated_at, \
                     jumlah_kata, rerata_rating, id_universitas])
                 for i in tag_list:

@@ -1,23 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <link href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
-
-    <title>Polling</title>
-</head>
-
-<body>
+{% extends "base.html" %}
+{% block title %}Polling{% endblock %}
+{% block content %}
     <div class="container">
 		<div class="row">
-            <ul class="list-group">
+            <ul class="list-group" style="width:100%">
                 <li class="list-group-item list-group-item-success"><center>Polling</center></li>
                 <a href="{% url 'polling:tambah_polling_berita' %}"><li class="list-group-item"><center>Tambah Polling Berita</center></li></a>
                 <a href="{% url 'polling:tambah_polling_biasa' %}"><li class="list-group-item"><center>Tambah Polling Biasa</center></li></a>
             </ul>
 		</div>
     </div>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script type="application/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-</body>
-</html>
+{% endblock %}

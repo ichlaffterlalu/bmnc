@@ -1,16 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <link href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
-
-    <title>Polling Berita</title>
-</head>
-
-<body>
+{% extends "base.html" %}
+{% block title %}Buat Polling Berita{% endblock %}
+{% block content %}
     <div class="container">
-        <div class="row">
-            <ul class="list-group">
+		<div class="row">
+            <ul class="list-group" style="width:100%">
                 <li class="list-group-item list-group-item-success"><center>Polling Form</center></li>
                 <form action="" method="post" class="form-horizontal">
                     {% csrf_token %}
@@ -45,12 +38,12 @@
             </ul>
         </div>
     </div>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script type="application/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+{% endblock %}
+
+{% block scripts_page %}
     <script type="text/javascript">
         {% if tambah_polling_berita %}
             alert('{{ tambah_polling_berita }}');
         {% endif %}
     </script>
-</body>
-</html>
+{% endblock %}
