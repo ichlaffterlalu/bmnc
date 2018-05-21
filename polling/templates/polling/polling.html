@@ -1,13 +1,79 @@
 {% extends "base.html" %}
 {% block title %}Polling{% endblock %}
 {% block content %}
-    <div class="container">
-		<div class="row">
-            <ul class="list-group" style="width:100%">
-                <li class="list-group-item list-group-item-success"><center>Polling</center></li>
-                <a href="{% url 'polling:tambah_polling_berita' %}"><li class="list-group-item"><center>Tambah Polling Berita</center></li></a>
-                <a href="{% url 'polling:tambah_polling_biasa' %}"><li class="list-group-item"><center>Tambah Polling Biasa</center></li></a>
-            </ul>
-		</div>
+    <div class="py-3">
+        <div class="container">
+            <span class="float-right">
+                {% if is_narasumber %}
+                    <a class="btn btn-sm btn-dark" href="{% url 'polling:tambah_polling_berita' %}" style="margin:5px;width:100%">
+                        <center>Tambah Polling Berita</center>
+                    </a><br>
+                    <a class="btn btn-sm btn-dark" href="{% url 'polling:tambah_polling_biasa' %}" style="margin:5px;width:100%">
+                        <center>Tambah Polling Biasa</center>
+                    </a>
+                {% endif %}
+            </span>
+            <div class="row">
+            <div class="col-md-12">
+                <h1 class="w-100 text-center text-uppercase text-white">
+                    <b>Daftar Polling</b>
+                </h1>
+            </div>
+            </div>
+        </div>
+    </div>
+    <div class="py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="col-md-12">
+                        <div class="list-group">
+                            <div class="py-3">
+                                <h3 class="w-100 text-center text-uppercase text-white">Polling Biasa</h3>
+                            </div>
+                            {% for poll in daftar_polling_biasa %}
+                                {% if now > poll.id_polling.polling_end %}
+                                    <a class="list-group-item list-group-item-action flex-column align-items-start success" href="{{poll.url}}">
+                                {% else %}
+                                    <a class="list-group-item list-group-item-action flex-column align-items-start danger">
+                                {% endif %}
+                                        <div class="d-flex w-100 justify-content-between">
+                                            <h5 class="mb-1">{{poll.id_polling.id}}</h5>
+                                        </div>
+                                        <small>{{poll.id_polling.polling_start}} - {{poll.id_polling.polling_end}}</small>
+                                        <small>{{poll.url}}</small>
+                                        <small>Total Responden: {{poll.id_polling.total_responden}}</small>
+                                        <p class="mb-1">{{poll.deskripsi}}</p>
+                                    </a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="col-md-12">
+                        <div class="list-group">
+                            <div class="py-3">
+                                <h3 class="w-100 text-center text-uppercase text-white">Polling Berita</h3>
+                            </div>
+                            {% for poll in daftar_polling_berita %}
+                                {% if now > poll.id_polling.polling_end %}
+                                    <a class="list-group-item list-group-item-action flex-column align-items-start success" href="{{poll.url_berita.url}}">
+                                {% else %}
+                                    <a class="list-group-item list-group-item-action flex-column align-items-start danger">
+                                {% endif %}
+                                        <div class="d-flex w-100 justify-content-between">
+                                            <h5 class="mb-1">{{poll.url_berita.judul}}</h5>
+                                        </div>
+                                        <small>{{poll.id_polling.polling_start}} - {{poll.id_polling.polling_end}}</small>
+                                        <small>{{poll.url_berita.url}}</small>
+                                        <p class="mb-1">Topik: {{poll.topik}}<br> Jumlah Kata: </p>
+                                    </a>
+                            {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 {% endblock %}

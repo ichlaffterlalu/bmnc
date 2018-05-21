@@ -3,17 +3,18 @@ from django.urls import reverse
 from django.http import HttpResponseRedirect
 from django.db import connection
 import datetime
+from .models import PollingBiasa, PollingBerita
 
 def index(request):
     # todo : get narasumber data
     is_narasumber = True
 
-    if is_narasumber:
-        html = 'polling/polling.html'
-        response = {}
-        return render(request, html, response)
+    daftar_polling_biasa = PollingBiasa.objects.raw("SELECT * FROM POLLING_BIASA;")
+    daftar_polling_berita = PollingBerita.objects.raw("SELECT * FROM POLLING_BERITA;")
 
-    return HttpResponseRedirect('/')
+    html = 'polling/polling.html'
+    response = {"is_narasumber":is_narasumber, "daftar_polling_biasa":daftar_polling_biasa, "daftar_polling_berita":daftar_polling_berita}
+    return render(request, html, response)
 
 def tambah_polling_berita(request):
     # todo : get narasumber data
@@ -37,7 +38,7 @@ def tambah_polling_berita(request):
                 WHERE url = %s;', [url_berita])
             url_berita_exist = c.fetchone()[0] > 0
             c.close()
-            
+
             if url_berita_exist:
                 try:
                     polling_start = datetime.datetime(*[int(i) for i in request.POST.\
@@ -61,7 +62,7 @@ def tambah_polling_berita(request):
 
                     c.execute('INSERT INTO Polling(id, polling_start, polling_end, \
                         total_responden) \
-                        VALUES (%s, %s, %s, %s);', 
+                        VALUES (%s, %s, %s, %s);',
                         [id, polling_start, polling_end, total_responden])
                     c.execute('INSERT INTO Polling_Berita(id_polling, url_berita) \
                         VALUES (%s, %s);', [id, url_berita])
@@ -121,7 +122,7 @@ def tambah_polling_biasa(request):
 
                 c.execute('INSERT INTO Polling(id, polling_start, polling_end, \
                     total_responden) \
-                    VALUES (%s, %s, %s, %s);', 
+                    VALUES (%s, %s, %s, %s);',
                     [id, polling_start, polling_end, total_responden])
                 url = 'http://url-random/' + str(id)
                 c.execute('INSERT INTO Polling_Biasa(id_polling, url, deskripsi) \
