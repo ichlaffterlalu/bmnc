@@ -4,7 +4,6 @@ from .models import Honor, Kupon
 
 # Create your views here.
 def index(request):
-    request.session["id_narasumber"] = 1
     narasumber = Narasumber.objects.raw("SELECT * FROM NARASUMBER WHERE id = %s;", [request.session.get("id_narasumber")])[0]
     universitas = narasumber.id_universitas
 
@@ -21,9 +20,7 @@ def index(request):
     daftar_kupon = Kupon.objects.raw("SELECT * FROM KUPON WHERE id_narasumber = %s;", [request.session.get("id_narasumber")])
 
     response = {"narasumber" : narasumber, "universitas" : universitas, "dosen" : dosen, "mahasiswa" : mahasiswa, "staf" : staf,
-                "daftar_honor" : daftar_honor, "daftar_kupon" : daftar_kupon}
+                "daftar_honor" : daftar_honor, "daftar_kupon" : daftar_kupon, "is_narasumber": 'id_narasumber' in request.session}
     html = "profil/lihat_profil.html"
-
-    del request.session["id_narasumber"]
 
     return render(request, html, response)

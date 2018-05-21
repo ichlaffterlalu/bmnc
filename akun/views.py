@@ -24,10 +24,10 @@ def login(request):
         c.close()
 
         if username != None:
-            username = username[0]
-            request.session['id_narasumber'] = username.id_narasumber
+            request.session['id_narasumber'] = username[2]
+            c = connection.cursor()
             c.execute('SELECT id_universitas FROM NARASUMBER \
-            WHERE id = %s;', [username.id_narasumber])
+            WHERE id = %s;', [username[2]])
             request.session['id_universitas'] = c.fetchone()[0]
             return HttpResponseRedirect(reverse('profil:index'))
         else:
