@@ -121,4 +121,4 @@ def registrasi(request):
             finally:
                 c.close()
 
-    return HttpResponseRedirect(reverse("akun:landing-page"))
+    return HttpResponseRedirect("/")
