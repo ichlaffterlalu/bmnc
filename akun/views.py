@@ -20,10 +20,11 @@ def login(request):
         password = request.POST.get('password', '')
         c.execute('SELECT * FROM PENGGUNA \
             WHERE username = %s AND password = %s;', [username,password])
-        username = c.fetchone()[0]
+        username = c.fetchone()
         c.close()
 
         if username != None:
+            username = username[0]
             request.session['id_narasumber'] = username.id_narasumber
             c.execute('SELECT id_universitas FROM NARASUMBER \
             WHERE id = %s;', [username.id_narasumber])
@@ -120,4 +121,4 @@ def registrasi(request):
             finally:
                 c.close()
 
-    return HttpResponseRedirect("akun/")
+    return HttpResponseRedirect(reverse("akun:landing-page"))
