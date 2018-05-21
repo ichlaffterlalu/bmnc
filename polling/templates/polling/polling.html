@@ -31,11 +31,11 @@
                             <div class="py-3">
                                 <h3 class="w-100 text-center text-uppercase text-white">Polling Biasa</h3>
                             </div>
-                            {% for poll in daftar_polling_biasa %}
-                                {% if now > poll.id_polling.polling_end %}
-                                    <a class="list-group-item list-group-item-action flex-column align-items-start success" href="{{poll.url}}">
+                            {% for poll in daftar_polling_biasa reversed %}
+                                {% if time_now > poll.id_polling.polling_end %}
+                                    <a class="list-group-item list-group-item-action flex-column align-items-start bg-danger text-white">
                                 {% else %}
-                                    <a class="list-group-item list-group-item-action flex-column align-items-start danger">
+                                    <a class="list-group-item list-group-item-action flex-column align-items-start bg-success text-white" href="{{poll.url}}">
                                 {% endif %}
                                         <div class="d-flex w-100 justify-content-between">
                                             <h5 class="mb-1">{{poll.id_polling.id}}</h5>
@@ -55,18 +55,18 @@
                             <div class="py-3">
                                 <h3 class="w-100 text-center text-uppercase text-white">Polling Berita</h3>
                             </div>
-                            {% for poll in daftar_polling_berita %}
-                                {% if now > poll.id_polling.polling_end %}
-                                    <a class="list-group-item list-group-item-action flex-column align-items-start success" href="{{poll.url_berita.url}}">
+                            {% for poll in daftar_polling_berita reversed %}
+                                {% if time_now > poll.id_polling.polling_end %}
+                                    <a class="list-group-item list-group-item-action flex-column align-items-start bg-danger text-white">
                                 {% else %}
-                                    <a class="list-group-item list-group-item-action flex-column align-items-start danger">
+                                    <a class="list-group-item list-group-item-action flex-column align-items-start bg-success text-white" href="{{poll.url_berita.url}}">
                                 {% endif %}
                                         <div class="d-flex w-100 justify-content-between">
                                             <h5 class="mb-1">{{poll.url_berita.judul}}</h5>
                                         </div>
                                         <small>{{poll.id_polling.polling_start}} - {{poll.id_polling.polling_end}}</small>
                                         <small>{{poll.url_berita.url}}</small>
-                                        <p class="mb-1">Topik: {{poll.topik}}<br> Jumlah Kata: </p>
+                                        <p class="mb-1">Topik: {{poll.url_berita.topik}}<br> Jumlah Kata: {{poll.url_berita.jumlah_kata}}</p>
                                     </a>
                             {% endfor %}
                             </div>

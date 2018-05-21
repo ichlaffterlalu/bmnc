@@ -13,7 +13,8 @@ def index(request):
     daftar_polling_berita = PollingBerita.objects.raw("SELECT * FROM POLLING_BERITA;")
 
     html = 'polling/polling.html'
-    response = {"is_narasumber":is_narasumber, "daftar_polling_biasa":daftar_polling_biasa, "daftar_polling_berita":daftar_polling_berita}
+    time_now = datetime.datetime.now()
+    response = {"is_narasumber":is_narasumber, "daftar_polling_biasa":daftar_polling_biasa, "daftar_polling_berita":daftar_polling_berita, "time_now":time_now}
     return render(request, html, response)
 
 def tambah_polling_berita(request):
