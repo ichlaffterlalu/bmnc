@@ -6,8 +6,7 @@ import datetime
 from .models import PollingBiasa, PollingBerita
 
 def index(request):
-    # todo : get narasumber data
-    is_narasumber = True
+    is_narasumber = 'id_narasumber' in  request.session
 
     daftar_polling_biasa = PollingBiasa.objects.raw("SELECT * FROM POLLING_BIASA;")
     daftar_polling_berita = PollingBerita.objects.raw("SELECT * FROM POLLING_BERITA;")
@@ -18,8 +17,7 @@ def index(request):
     return render(request, html, response)
 
 def tambah_polling_berita(request):
-    # todo : get narasumber data
-    is_narasumber = True
+    is_narasumber = 'id_narasumber' in request.session
 
     if is_narasumber:
         if request.method == 'GET':
@@ -85,8 +83,7 @@ def tambah_polling_berita(request):
     return HttpResponseRedirect('/')
 
 def tambah_polling_biasa(request):
-    # todo : get narasumber data
-    is_narasumber = True
+    is_narasumber = 'id_narasumber' in request.session
 
     if is_narasumber:
         if request.method == 'GET':

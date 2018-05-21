@@ -4,8 +4,9 @@ from django.http import HttpResponseRedirect
 from django.db import connection
 # Create your views here.
 def index(request):
-    pass
-
+    response = {}
+    html = 'akun/landing page.html'
+    return render(request, html, response)
 
 def login(request):
     if request.method == 'GET':
@@ -24,6 +25,9 @@ def login(request):
 
         if username != None:
             request.session['id_narasumber'] = username.id_narasumber
+            c.execute('SELECT id_universitas FROM NARASUMBER \
+            WHERE id = %s;', [username.id_narasumber])
+            request.session['id_universitas'] = c.fetchone()[0]
             return HttpResponseRedirect(reverse('profil:index'))
         else:
             return HttpResponseRedirect(reverse('akun:login'))
@@ -36,7 +40,7 @@ def logout(request):
 def registrasi(request):
 
     if request.method == 'GET' :
-
+        pass
 
 
     if request.method == 'POST':
@@ -52,7 +56,7 @@ def registrasi(request):
             statusKemahasiswaan = request.POST.get('statusKemahasiswaan', '')
             idUniversitas = request.POST.get('idUniversitas', '')
 
-            if role == :"Dosen" or role =="Staf":
+            if role == "Dosen" or role =="Staf":
                 c = connection.cursor()
                 try:
                     c.execute('SELECT id FROM narasumber ORDER BY id desc limit 1;')

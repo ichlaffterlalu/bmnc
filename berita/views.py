@@ -7,8 +7,7 @@ import datetime
 from .models import Berita, Tag
 
 def index(request):
-    # todo : get narasumber data
-    is_narasumber = True
+    is_narasumber = 'id_narasumber' in request.session
 
     daftar_berita_raw = Tag.objects.raw("SELECT * FROM TAG;")
     daftar_berita = {}
@@ -24,8 +23,7 @@ def index(request):
     return render(request, html, response)
 
 def tambah_berita(request):
-    # todo : get narasumber data
-    is_narasumber = True
+    is_narasumber = 'id_narasumber' in request.session
 
     if is_narasumber:
         if request.method == 'GET':
@@ -52,7 +50,7 @@ def tambah_berita(request):
             created_at = datetime.datetime.now()
             updated_at = datetime.datetime.now()
             rerata_rating = 0
-            id_universitas = 1 # todo : change from narasumber
+            id_universitas = request.session['id_universitas']
 
             c = connection.cursor()
             try:
