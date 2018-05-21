@@ -14,7 +14,7 @@ def login(request):
         html = 'akun/login.html'
         return render(request, html, response)
 
-    elif request.method == 'POST' and 'id_narasumber' not in request.sessions:
+    elif request.method == 'POST' and 'id_narasumber' not in request.session:
         c = connection.cursor()
         username = request.POST.get('username', '')
         password = request.POST.get('password', '')
@@ -38,10 +38,10 @@ def logout(request):
     return HttpResponseRedirect(reverse('akun:landing-page'))
 
 def registrasi(request):
-
-    if request.method == 'GET' :
-        pass
-
+    if request.method == 'GET':
+        response = {}
+        html = "akun/registrasi.html"
+        return render(request, html, response)
 
     if request.method == 'POST':
             role = request.POST.get('role', '')
@@ -64,11 +64,11 @@ def registrasi(request):
                     c.execute('INSERT INTO Narasumber(id, nama, email, tempat, tanggal, no_hp, jumlah_berita, rerata_kata, id_universitas) \
                         VALUES (%d, %s, %s, %s, %s, %s, %d, %d, %s);',
                         [lastID+1, nama, email, TempatLahir, TanggalLahir, nohp, 0, 0, idUniversitas])
-                    
+
                     c.execute('INSERT INTO PENGGUNA(username, password, id) \
                         VALUES (%s, %s, %d);',
                         [username,password, lastID+1])
-                    
+
                     request.session['registrasi'] = 'Berhasil menambah user'
                 except:
                     request.session['registrasi'] = 'Error ketika menambah user (username sudah ada)'
@@ -88,11 +88,11 @@ def registrasi(request):
                     c.execute('INSERT INTO Mahasiswa(id_narasumber, npm,status) \
                         VALUES (%d, %d, %s);',
                         [lastID+1, NoIdentitas, statusKemahasiswaan])
-                    
+
                     c.execute('INSERT INTO PENGGUNA(username, password, id) \
                         VALUES (%s, %s, %d);',
                         [username,password, lastID+1])
-                    
+
                     request.session['registrasi'] = 'Berhasil menambah user'
                 except:
                     request.session['registrasi'] = 'Error ketika menambah user (username sudah ada)'
@@ -100,8 +100,8 @@ def registrasi(request):
                     c.close()
 
 
-            
-            
+
+
             c = connection.cursor()
             try:
                 c.execute('SELECT id FROM narasumber ORDER BY id desc limit 1;')
@@ -109,15 +109,15 @@ def registrasi(request):
                 c.execute('INSERT INTO Narasumber(id, nama, email, tempat, tanggal, no_hp, jumlah_berita, rerata_kata) \
                     VALUES (%d, %s, %s, %s, %s, %s, %d, %d);',
                     [lastID+1, nama, email, TempatLahir, TanggalLahir, nohp, 0, 0])
-                
+
                 c.execute('INSERT INTO PENGGUNA(username, password, id) \
                     VALUES (%s, %s, %d);',
                     [username,password, lastID+1])
-                
+
                 request.session['registrasi'] = 'Berhasil menambah user'
             except:
                 request.session['registrasi'] = 'Error ketika menambah user (username sudah ada)'
             finally:
                 c.close()
 
-    return HttpResponseRedirect(reverse('profil:index'))
+    return HttpResponseRedirect("akun/")
