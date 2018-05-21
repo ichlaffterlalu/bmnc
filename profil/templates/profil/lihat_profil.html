@@ -1,0 +1,193 @@
+{% extends "base.html" %}
+{% block content %}
+  <div class="py-3">
+    <div class="container">
+      <div class="row">
+        <h1 class="w-100 text-center text-uppercase text-white">
+          <b>{{narasumber.nama}}</b>
+        </h1>
+      </div>
+    </div>
+  </div>
+  <div class="py-5">
+    <div class="container">
+      <div class="row">
+        <h2 class="w-100 text-center text-uppercase text-white">
+          <b>Profil Anda: </b>
+        </h2>
+        <div class="col-md-12">
+          <ul class="list-group">
+            <li class="list-group-item d-flex justify-content-between align-items-center"> ID Narasumber:
+                <b></b>
+                  {{narasumber.id}}
+                </b>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center"> Tempat/Tanggal Lahir:
+              <b>
+                {{narasumber.tempat}}, {{narasumber.tanggal}}
+              </b>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center"> Email:
+              <b>
+                {{narasumber.email}}
+              </b>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">Nomor HP:
+              <b>
+                {{narasumber.no_hp}}
+              </b>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center"> Role:
+              <b>
+                {% if mahasiswa %}Mahasiswa{% elif dosen %}Dosen{% elif staf %}Staf{% else %}Unknown{% endif %}
+              </b>
+            </li>
+
+            {% if mahasiswa %}
+              <li class="list-group-item d-flex justify-content-between align-items-center"> NPM:
+                <b>
+                  {{mahasiswa.npm}}
+                </b>
+              </li>
+              <li class="list-group-item d-flex justify-content-between align-items-center"> Status Kemahasiswaan:
+                <b>
+                  {{mahasiswa.status}}
+                </b>
+              </li>
+            {% elif dosen %}
+              <li class="list-group-item d-flex justify-content-between align-items-center"> NIK:
+                <b>
+                  {{dosen.nik_dosen}}
+                </b>
+              </li>
+              <li class="list-group-item d-flex justify-content-between align-items-center"> Jurusan:
+                <b>
+                  {{dosen.jurusan}}
+                </b>
+              </li>
+            {% elif staf %}
+              <li class="list-group-item d-flex justify-content-between align-items-center"> NIK:
+                <b>
+                  {{staf.nik_staf}}
+                </b>
+              </li>
+              <li class="list-group-item d-flex justify-content-between align-items-center"> Jurusan:
+                <b>
+                  {{staf.posisi}}
+                </b>
+              </li>
+            {% endif %}
+
+            <li class="list-group-item d-flex justify-content-between align-items-center">Universitas:
+              <b>
+                {{universitas.id}} - {{universitas.provinsi}} University
+              </b>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="py-3">
+      <div class="container">
+        <div class="row">
+          <h2 class="w-100 text-center text-uppercase text-white">
+            <b>Statistik Anda: </b>
+          </h2>
+        </div>
+      </div>
+    </div>
+  <div class="py-5">
+    <div class="container">
+      <div class="col-md-12">
+        <ul class="list-group">
+          <li class="list-group-item d-flex justify-content-between align-items-center"> Jumlah Berita:
+            <b>
+              {{narasumber.jumlah_berita}}
+            </b>
+          </li>
+          <li class="list-group-item d-flex justify-content-between align-items-center"> Rata-rata Kata Per Berita:
+            <b>
+              {{narasumber.rerata_kata}}
+            </b>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="py-3">
+    <div class="container">
+      <div class="row">
+        <h2 class="w-100 text-center text-uppercase text-white">
+          <b>Honor Anda: </b>
+        </h2>
+      </div>
+    </div>
+  </div>
+  <div class="py-5">
+    <div class="container">
+      <div class="row">
+        {% if daftar_honor.count > 0 %}
+          {% for honor in daftar_honor %}
+            <div class="col-md-12">
+              <ul class="list-group">
+                <li class="list-group-item d-flex justify-content-between align-items-center"> Tanggal Diberikan:
+                  <b>{{honor.tgl_diberikan}}</b>,
+                  Jumlah Berita: <b>{{honor.jumlah_berita}}</b>,
+                  Jumlah Gaji: <b>{{honor.jumlah_gaji}}</b>
+                </li>
+              </ul>
+            </div>
+          {% endfor %}
+        {% else %}
+          <div class="col-md-12">
+            <ul class="list-group">
+              <li class="list-group-item d-flex justify-content-between align-items-center bg-warning">
+                Anda belum memiliki honor.
+              </li>
+            </ul>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <div class="py-3">
+    <div class="container">
+      <div class="row">
+        <h2 class="w-100 text-center text-uppercase text-white">
+          <b>Kupon BukaLapak yang Anda miliki: </b>
+        </h2>
+      </div>
+    </div>
+  </div>
+  <div class="py-5">
+    <div class="container">
+      <div class="row">
+        {% if daftar_kupon.count > 0 %}
+          {% for kupon in daftar_kupon %}
+            <div class="col-md-12">
+              <ul class="list-group">
+                <li class="list-group-item d-flex justify-content-between align-items-center"> ID Kupon:
+                  <b>{{kupon.id}}</b>,
+                  Tanggal Diberikan: <b>{{kupon.tgl_diberikan}}</b>,
+                  Tanggal Kadaluarsa: <b>{{kupon.tgl_kadaluarsa}}</b>
+                </li>
+              </ul>
+            </div>
+          {% endfor %}
+        {% else %}
+          <div class="col-md-12">
+            <ul class="list-group">
+              <li class="list-group-item d-flex justify-content-between align-items-center bg-warning">
+                Anda belum pernah mendapatkan kupon.
+              </li>
+            </ul>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+{% endblock %}

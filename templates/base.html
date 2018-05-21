@@ -15,7 +15,6 @@
         <link rel=stylesheet href="{% static 'css/bootstrap-reboot-4.0.0.min.css' %}">
 		{% endblock %}
 		<link rel=stylesheet href="{% static 'css/base.css' %}">
-        <link rel=stylesheet id="theme-css" href="{% static 'css/theme-dark.css' %}">
         {% block stylescript_app %}{% endblock %}
         {% block stylescript_page %}{% endblock %}
 
@@ -25,13 +24,13 @@
 <body>
 	<div class="main-container">
 		<header>
-			{% block header %}{% endblock %}
+			{% block header %}{% include "partials/header.html" %}{% endblock %}
 		</header>
 		<content>
 			<div class="content-out">{% block content %}{% endblock %}</div>
 		</content>
 		<footer>
-			{% block footer %}{% endblock %}
+			{% block footer %}{% include "partials/footer.html" %}{% endblock %}
 		</footer>
 	</div>
 </body>

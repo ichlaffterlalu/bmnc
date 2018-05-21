@@ -31,5 +31,5 @@ urlpatterns = [
 	url(r'^berita/', include(berita)),
 	url(r'^profil/', include(profil)),
 	url(r'^polling/', include(polling)),
-	url(r'^$', RedirectView.as_view(url="/", permanent="False"), name='index')
+	url(r'^$', RedirectView.as_view(url="/berita/", permanent="False"), name='index')
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
