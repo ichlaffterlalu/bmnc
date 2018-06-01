@@ -25,9 +25,8 @@ def tambah_polling_berita(request):
     is_narasumber = 'id_narasumber' in request.session
 
     if is_narasumber:
+        response = set_response(request, {})
         if request.method == 'GET':
-            response = set_response(request, {})
-
             html = 'polling/membuat_polling_berita.html'
             return render(request, html, response)
 
@@ -89,8 +88,9 @@ def tambah_polling_biasa(request):
     is_narasumber = 'id_narasumber' in request.session
 
     if is_narasumber:
+        response = set_response(request, {})
         if request.method == 'GET':
-            response = set_response(request, response)
+            response = set_response(request, {})
 
             html = 'polling/membuat_polling_biasa.html'
             return render(request, html, response)
@@ -134,7 +134,6 @@ def tambah_polling_biasa(request):
                 messages.error(request, 'Error ketika menambah polling biasa')
             finally:
                 c.close()
-
             return HttpResponseRedirect(reverse('polling:tambah_polling_biasa'))
 
     else:

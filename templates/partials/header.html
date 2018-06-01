@@ -13,7 +13,7 @@
 				<li class="nav-item">
 					<a class="nav-link" href="/polling/" data-toggle="tooltip" title="Ikutlah dalam berbagai polling menarik.">Polling</a>
 				</li>
-				{% if is_narasumber %}
+				{% if username %}
 				<li class="nav-item">
 					<a class="nav-link" href="/profil/" data-toggle="tooltip" title="Lihat profil anda.">{{nama_narasumber}}</a>
 				</li>
@@ -22,7 +22,7 @@
 				</li>
 				{% else %}
 				<li class="nav-item">
-					<a class="nav-link" href="" data-toggle="tooltip" title="Lihat profil anda.">Anonymous</a>
+					<a class="nav-link" data-toggle="tooltip">Anonymous</a>
 				</li>
 				<li class="nav-item" style="background:rgba(128,255,128,0.5)">
 					<a class="nav-link" href="/akun/registrasi/" data-toggle="tooltip" title="Daftarkan diri anda!">Register</a>

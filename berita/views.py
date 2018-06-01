@@ -15,7 +15,6 @@ def index(request):
     daftar_tag_raw = [Tag.objects.raw("SELECT * FROM TAG WHERE url_berita=%s;", [x.url]) for x in daftar_berita_raw]
 
     daftar_berita = dict(zip(daftar_berita_raw, daftar_tag_raw))
-    print(daftar_berita)
     html = 'berita/berita.html'
 
     response = {"is_narasumber": is_narasumber, "daftar_berita": daftar_berita}
@@ -26,6 +25,7 @@ def tambah_berita(request):
     is_narasumber = 'id_narasumber' in request.session
 
     if is_narasumber:
+        response = set_response(request, {})
         if request.method == 'GET':
             response = set_response(request, {})
 
@@ -63,7 +63,6 @@ def tambah_berita(request):
                 messages.error(request, 'Error ketika menambah berita (url sudah ada)')
             finally:
                 c.close()
-
             return HttpResponseRedirect(reverse('berita:tambah_berita'))
 
     else:

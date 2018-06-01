@@ -115,10 +115,12 @@ def registrasi(request):
                         VALUES (%s, %s, %s);',
                         [username, password, lastId+1])
 
-            messages.success(request, 'Berhasil menambah user')
-            return HttpResponseRedirect("/")
+            messages.success(request, 'Berhasil mendaftar! Silahkan login')
+            return HttpResponseRedirect(reverse("akun:login"))
         except:
-            messages.error(request, 'Error ketika menambah user (username sudah ada)')
-            return HttpResponseRedirect("/")
+            messages.error(request, 'Error ketika menambah user (username sudah ada atau ada input yang tak valid)')
+            html = "akun/registrasi.html"
+            response = {}
+            return render(request, html, response)
         finally:
             c.close()
