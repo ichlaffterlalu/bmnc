@@ -30,7 +30,7 @@ def login(request):
         user_data = c.fetchone()
         c.close()
 
-        if username != None:
+        if user_data != None:
             request.session['username'] = user_data[0]
             request.session['id_narasumber'] = user_data[2]
 
