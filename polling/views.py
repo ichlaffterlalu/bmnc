@@ -2,18 +2,23 @@ from django.shortcuts import render
 from django.urls import reverse
 from django.http import HttpResponseRedirect
 from django.db import connection
+from django.contrib import messages
 import datetime
+
+from akun.views import set_response
 from .models import PollingBiasa, PollingBerita
 
 def index(request):
-    is_narasumber = 'id_narasumber' in  request.session
+    is_narasumber = 'id_narasumber' in request.session
 
     daftar_polling_biasa = PollingBiasa.objects.raw("SELECT * FROM POLLING_BIASA;")
     daftar_polling_berita = PollingBerita.objects.raw("SELECT * FROM POLLING_BERITA;")
 
     html = 'polling/polling.html'
     time_now = datetime.datetime.now()
+
     response = {"is_narasumber":is_narasumber, "daftar_polling_biasa":daftar_polling_biasa, "daftar_polling_berita":daftar_polling_berita, "time_now":time_now}
+    response = set_response(request, response)
     return render(request, html, response)
 
 def tambah_polling_berita(request):
@@ -21,11 +26,7 @@ def tambah_polling_berita(request):
 
     if is_narasumber:
         if request.method == 'GET':
-            response = {}
-
-            if 'tambah_polling_berita' in request.session:
-                response['tambah_polling_berita'] = request.session.get('tambah_polling_berita')
-                del request.session['tambah_polling_berita']
+            response = set_response(request, {})
 
             html = 'polling/membuat_polling_berita.html'
             return render(request, html, response)
@@ -70,28 +71,26 @@ def tambah_polling_berita(request):
                         c.execute('INSERT INTO Respon(id_polling, jawaban, jumlah_dipilih) \
                             VALUES (%s, %s, %s);', [id, i, jumlah_dipilih])
 
-                    request.session['tambah_polling_berita'] = 'Berhasil menambah polling berita'
+                    messages.success(request, 'Berhasil menambah polling berita')
                 except:
-                    request.session['tambah_polling_berita'] = 'Error ketika menambah polling berita'
+                    messages.error(request, 'Error ketika menambah polling berita')
                 finally:
                     c.close()
             else:
-                request.session['tambah_polling_berita'] = 'Error ketika menambah polling berita (url berita tidak ada)'
+                messages.error(request, 'Error ketika menambah polling berita (url berita tidak ada)')
 
             return HttpResponseRedirect(reverse('polling:tambah_polling_berita'))
 
-    return HttpResponseRedirect('/')
+    else:
+        messages.error(request, 'Login terlebih dahulu untuk menambahkan polling berita')
+        return HttpResponseRedirect(reverse('akun:login'))
 
 def tambah_polling_biasa(request):
     is_narasumber = 'id_narasumber' in request.session
 
     if is_narasumber:
         if request.method == 'GET':
-            response = {}
-
-            if 'tambah_polling_biasa' in request.session:
-                response['tambah_polling_biasa'] = request.session.get('tambah_polling_biasa')
-                del request.session['tambah_polling_biasa']
+            response = set_response(request, response)
 
             html = 'polling/membuat_polling_biasa.html'
             return render(request, html, response)
@@ -130,12 +129,14 @@ def tambah_polling_biasa(request):
                     c.execute('INSERT INTO Respon(id_polling, jawaban, jumlah_dipilih) \
                         VALUES (%s, %s, %s);', [id, i, jumlah_dipilih])
 
-                request.session['tambah_polling_biasa'] = 'Berhasil menambah polling biasa'
+                messages.success(request, 'Berhasil menambah polling biasa')
             except:
-                request.session['tambah_polling_biasa'] = 'Error ketika menambah polling biasa'
+                messages.error(request, 'Error ketika menambah polling biasa')
             finally:
                 c.close()
 
             return HttpResponseRedirect(reverse('polling:tambah_polling_biasa'))
 
-    return HttpResponseRedirect('/')
+    else:
+        messages.error(request, 'Login terlebih dahulu untuk menambahkan polling biasa')
+        return HttpResponseRedirect(reverse('akun:login'))

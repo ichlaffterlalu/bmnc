@@ -1,6 +1,9 @@
 from django.shortcuts import render
+from django.contrib import messages
 from akun.models import Universitas, Narasumber, Dosen, Mahasiswa, Staf
 from .models import Honor, Kupon
+
+from akun.views import set_response
 
 # Create your views here.
 def index(request):
@@ -26,6 +29,7 @@ def index(request):
 
     response = {"narasumber" : narasumber, "universitas" : universitas, "dosen" : dosen, "mahasiswa" : mahasiswa, "staf" : staf,
                 "daftar_honor" : daftar_honor, "daftar_kupon" : daftar_kupon, "is_narasumber": 'id_narasumber' in request.session}
+    response = set_response(request, response)
     html = "profil/lihat_profil.html"
 
     return render(request, html, response)

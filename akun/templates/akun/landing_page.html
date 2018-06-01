@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block stylescript_app %}
+  <link rel="stylesheet" href="{% static 'css/landing-page.css' %}">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:700" rel="stylesheet">
+{% endblock %}
+{% block header %}{% endblock %}
+{% block content %}
+    <div id='container'>
+      <div id='header'>
+        <div id='header-logo'>
+          <img src="{% static 'img/header-logo.png' %}" alt="HEADER LOGO" id="header-img">
+        </div>
+      </div>
+
+      <div id='big-logo'>
+        <img src="{% static 'img/big-logo.png' %}" alt="LOGO" id="logo-img">
+      </div>
+
+    </div>
+    <div id='button-login'>
+      <a style='text-decoration: none !important;color:black' id='btn' href="akun/login">LOGIN/REGISTER</a>
+    </div>
+    <div id='button-berita'>
+        <a style='text-decoration: none !important;color:black' id='btn' href="berita">LIHAT BERITA</a>
+    </div>
+{% endblock %}

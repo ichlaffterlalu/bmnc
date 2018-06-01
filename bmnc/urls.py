@@ -24,6 +24,7 @@ import akun.urls as akun
 import berita.urls as berita
 import profil.urls as profil
 import polling.urls as polling
+from akun.views import index as landing_page
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -31,5 +32,5 @@ urlpatterns = [
 	url(r'^berita/', include(berita)),
 	url(r'^profil/', include(profil)),
 	url(r'^polling/', include(polling)),
-	url(r'^$', RedirectView.as_view(url="/akun/", permanent="False"), name='index')
+	url(r'^$', landing_page, name='index')
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

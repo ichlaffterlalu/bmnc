@@ -2,8 +2,10 @@ from django.shortcuts import render
 from django.urls import reverse
 from django.http import HttpResponseRedirect
 from django.db import connection
+from django.contrib import messages
 import datetime
 
+from akun.views import set_response
 from .models import Berita, Tag
 
 def index(request):
@@ -15,7 +17,9 @@ def index(request):
     daftar_berita = dict(zip(daftar_berita_raw, daftar_tag_raw))
     print(daftar_berita)
     html = 'berita/berita.html'
+
     response = {"is_narasumber": is_narasumber, "daftar_berita": daftar_berita}
+    response = set_response(request, response)
     return render(request, html, response)
 
 def tambah_berita(request):
@@ -23,11 +27,7 @@ def tambah_berita(request):
 
     if is_narasumber:
         if request.method == 'GET':
-            response = {}
-
-            if 'tambah_berita' in request.session:
-                response['tambah_berita'] = request.session.get('tambah_berita')
-                del request.session['tambah_berita']
+            response = set_response(request, {})
 
             html = 'berita/membuat_berita.html'
             return render(request, html, response)
@@ -58,12 +58,14 @@ def tambah_berita(request):
                 for i in tag_list:
                     c.execute('INSERT INTO Tag(url_berita, tag) \
                         VALUES (%s, %s);', [url, i])
-                request.session['tambah_berita'] = 'Berhasil menambah berita'
+                messages.success(request, 'Berhasil menambah berita')
             except:
-                request.session['tambah_berita'] = 'Error ketika menambah berita (url sudah ada)'
+                messages.error(request, 'Error ketika menambah berita (url sudah ada)')
             finally:
                 c.close()
 
             return HttpResponseRedirect(reverse('berita:tambah_berita'))
 
-    return HttpResponseRedirect('/')
+    else:
+        messages.error(request, 'Login terlebih dahulu untuk menambahkan berita')
+        return HttpResponseRedirect(reverse('akun:login'))
