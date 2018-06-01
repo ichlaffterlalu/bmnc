@@ -27,7 +27,17 @@
 			{% block header %}{% include "partials/header.html" %}{% endblock %}
 		</header>
 		<content>
-			<div class="content-out">{% block content %}{% endblock %}</div>
+			<div class="content-out">
+				{% for message in messages %}
+				<div class="alert alert-{message.tags}} alert-dismissible" role="alert" id="django-messages">
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close" style="margin-right: 15px;">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					{{message}}
+				</div>
+				{% endfor %}
+				{% block content %}{% endblock %}
+			</div>
 		</content>
 		<footer>
 			{% block footer %}{% include "partials/footer.html" %}{% endblock %}

@@ -2,6 +2,9 @@ from django.shortcuts import render
 from django.urls import reverse
 from django.http import HttpResponseRedirect
 from django.db import connection
+from django.contrib import messages
+from hashlib import sha512
+
 # Create your views here.
 def index(request):
     response = {}
@@ -17,9 +20,9 @@ def login(request):
     elif request.method == 'POST' and 'id_narasumber' not in request.session:
         c = connection.cursor()
         username = request.POST.get('username', '')
-        password = request.POST.get('password', '')
+        password = sha512(request.POST.get('password', '').encode()).hexdigest()
         c.execute('SELECT * FROM PENGGUNA \
-            WHERE username = %s AND password = %s;', [username,password])
+            WHERE username = %s AND password = %s;', [username, password])
         username = c.fetchone()
         c.close()
 
@@ -32,10 +35,14 @@ def login(request):
             return HttpResponseRedirect(reverse('profil:index'))
         else:
             return HttpResponseRedirect(reverse('akun:login'))
+    elif request.method == 'POST':
+        messages.warning(request, 'Anda sudah login.')
+        return HttpResponseRedirect(reverse('profil:index'))
 
 
 def logout(request):
-    del request.session
+    del request.session['id_narasumber']
+    del request.session['id_universitas']
     return HttpResponseRedirect(reverse('akun:landing-page'))
 
 def registrasi(request):
@@ -47,68 +54,51 @@ def registrasi(request):
     if request.method == 'POST':
         role = request.POST.get('role', '')
         username = request.POST.get('username', '')
-        password = request.POST.get('password', '')
-        NoIdentitas = request.POST.get('NoIdentitas', '')
+        password = sha512(request.POST.get('password', '').encode()).hexdigest()
+        noIdentitas = request.POST.get('noIdentitas', '')
         nama = request.POST.get('nama', '')
-        TempatLahir = request.POST.get('TempatLahir', '')
-        TanggalLahir = request.POST.get('TanggalLahir', '')
+        tempatLahir = request.POST.get('tempatLahir', '')
+        tanggalLahir = request.POST.get('tanggalLahir', '')
         email = request.POST.get('email', '')
-        nohp = request.POST.get('nohp', '')
-        statusKemahasiswaan = request.POST.get('statusKemahasiswaan', '')
+        noHp = request.POST.get('noHp', '')
         idUniversitas = request.POST.get('idUniversitas', '')
-        print(role)
-        print(username)
-        print(password)
-        print(NoIdentitas)
-        print(nama)
-        print(TempatLahir)
-        print(TanggalLahir)
-        print(email)
-        print(nohp)
-        print(statusKemahasiswaan)
-        print(idUniversitas)
 
-        if role == "Dosen" or role =="Staf":
-            c = connection.cursor()
-            try:
-                c.execute('SELECT id FROM narasumber ORDER BY id desc limit 1;')
-                lastId = c.fetchone()[0]
-                c.execute('INSERT INTO Narasumber(id, nama, email, tempat, tanggal, no_hp, jumlah_berita, rerata_kata, id_universitas) \
-                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s);',
-                    [lastId+1, nama, email, TempatLahir, TanggalLahir, nohp, 0, 0, idUniversitas])
+        c = connection.cursor()
 
-                c.execute('INSERT INTO PENGGUNA(username, password, id_narasumber) \
-                    VALUES (%s, %s, %s);',
-                    [username, password, lastId+1])
+        try:
+            c.execute('SELECT id FROM narasumber ORDER BY id desc limit 1;')
+            lastId = c.fetchone()[0]
 
-                request.session['registrasi'] = 'Berhasil menambah user'
-            except:
-                request.session['registrasi'] = 'Error ketika menambah user (username sudah ada)'
-            finally:
-                c.close()
+            c.execute('INSERT INTO Narasumber(id, nama, email, tempat, tanggal, no_hp, jumlah_berita, rerata_kata, id_universitas) \
+                        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s);',
+                        [lastId+1, nama, email, tempatLahir, tanggalLahir, noHp, 0, 0, idUniversitas])
 
-        elif role == "Mahasiswa":
-            c = connection.cursor()
-            try:
-                c.execute('SELECT id FROM narasumber ORDER BY id desc limit 1;')
-                lastId = c.fetchone()[0]
-
-                c.execute('INSERT INTO Narasumber(id, nama, email, tempat, tanggal, no_hp, jumlah_berita, rerata_kata, id_universitas) \
-                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s);',
-                    [lastId+1, nama, email, TempatLahir, TanggalLahir, nohp, 0, 0, idUniversitas])
-
+            if role == "Mahasiswa":
+                statusKemahasiswaan = request.POST.get('statusKemahasiswaan', '')
                 c.execute('INSERT INTO Mahasiswa(id_narasumber, npm, status) \
                     VALUES (%s, %s, %s);',
-                    [lastId+1, NoIdentitas, statusKemahasiswaan])
+                    [lastId+1, noIdentitas, statusKemahasiswaan])
 
-                c.execute('INSERT INTO PENGGUNA(username, password, id_narasumber) \
+            elif role == "Dosen":
+                jurusan = request.POST.get('jurusan', '')
+                c.execute('INSERT INTO Dosen(id_narasumber, nik_dosen, jurusan) \
                     VALUES (%s, %s, %s);',
-                    [username, password, lastId+1])
+                    [lastId+1, noIdentitas, jurusan])
 
-                request.session['registrasi'] = 'Berhasil menambah user'
-            except:
-                request.session['registrasi'] = 'Error ketika menambah user (username sudah ada)'
-            finally:
-                c.close()
+            elif role == "Staf":
+                posisi = request.POST.get('posisi', '')
+                c.execute('INSERT INTO Staf(id_narasumber, nik_staf, posisi) \
+                    VALUES (%s, %s, %s);',
+                    [lastId+1, noIdentitas, posisi])
 
-    return HttpResponseRedirect("/")
+            c.execute('INSERT INTO PENGGUNA(username, password, id_narasumber) \
+                        VALUES (%s, %s, %s);',
+                        [username, password, lastId+1])
+
+            messages.success(request, 'Berhasil menambah user')
+            return HttpResponseRedirect("/")
+        except:
+            messages.error(request, 'Error ketika menambah user (username sudah ada)')
+            return HttpResponseRedirect("/akun/registrasi")
+        finally:
+            c.close()
