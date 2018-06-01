@@ -32,8 +32,10 @@ def login(request):
             c.execute('SELECT id_universitas FROM NARASUMBER \
             WHERE id = %s;', [username[2]])
             request.session['id_universitas'] = c.fetchone()[0]
+            messages.success(request, 'Berhasil login.')
             return HttpResponseRedirect(reverse('profil:index'))
         else:
+            messages.error(request, 'Login gagal. Cek kembali username dan password yang diberikan.')
             return HttpResponseRedirect(reverse('akun:login'))
     elif request.method == 'POST':
         messages.warning(request, 'Anda sudah login.')

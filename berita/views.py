@@ -9,17 +9,13 @@ from .models import Berita, Tag
 def index(request):
     is_narasumber = 'id_narasumber' in request.session
 
-    daftar_berita_raw = Tag.objects.raw("SELECT * FROM TAG;")
-    daftar_berita = {}
+    daftar_berita_raw = Berita.objects.raw("SELECT * FROM BERITA ORDER BY created_at DESC;")
+    daftar_tag_raw = [Tag.objects.raw("SELECT * FROM TAG WHERE url_berita=%s;", [x.url]) for x in daftar_berita_raw]
 
-    for item in daftar_berita_raw:
-        if daftar_berita.get(item.tag) == None:
-            daftar_berita[item.tag] = [item.url_berita]
-        else:
-            daftar_berita.get(item.tag).append(item.url_berita)
-
+    daftar_berita = dict(zip(daftar_berita_raw, daftar_tag_raw))
+    print(daftar_berita)
     html = 'berita/berita.html'
-    response = {"is_narasumber":is_narasumber, "daftar_berita":daftar_berita}
+    response = {"is_narasumber": is_narasumber, "daftar_berita": daftar_berita}
     return render(request, html, response)
 
 def tambah_berita(request):

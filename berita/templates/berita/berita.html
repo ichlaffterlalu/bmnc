@@ -18,12 +18,10 @@
     <div class="py-5">
         <div class="container">
             <div class="row">
-                {% for tag, berita_tag in daftar_berita.items %}
+                {% for berita, tags in daftar_berita.items %}
                 <div class="col-md-4 col-xs-6 py-2">
-                    <h3 class="text-white text-center">{{tag}}</h3>
                     <div class="col-md-12">
                         <div class="list-group">
-                            {% for berita in berita_tag %}
                             <a class="list-group-item list-group-item-action flex-column align-items-start" href="{{berita.url}}">
                             <div class="d-flex w-100 justify-content-between">
                                 <h5 class="mb-1">{{berita.judul}}</h5>
@@ -31,10 +29,10 @@
                             </div>
                             <small>{{berita.id_universitas.id}} - {{berita.id_universitas.provinsi}} University</small>
                             <p class="mb-1">Topik: {{berita.topik}}.<br>Jumlah kata: {{berita.jumlah_kata}}.<br>Rerata rating: {{berita.rerata_rating}}</p>
-                            <small>Klik untuk melihat berita.</small>
+                            <span class="glyphicon glyphicon-tag"></span><small>{% if tags.0 %}Tags:{% for tag in tags %} {{tag.tag}}{% endfor %}{% endif %}</small>
+                            <br><small>Klik untuk melihat berita.</small>
                             <small class="float-right">{{berita.updated_at}}</small>
                             </a>
-                            {% endfor %}
                         </div>
                     </div>
                 </div>

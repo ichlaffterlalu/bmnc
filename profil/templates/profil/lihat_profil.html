@@ -101,19 +101,21 @@
     </div>
   <div class="py-5">
     <div class="container">
-      <div class="col-md-12">
-        <ul class="list-group">
-          <li class="list-group-item d-flex justify-content-between align-items-center"> Jumlah Berita:
-            <b>
-              {{narasumber.jumlah_berita}}
-            </b>
-          </li>
-          <li class="list-group-item d-flex justify-content-between align-items-center"> Rata-rata Kata Per Berita:
-            <b>
-              {{narasumber.rerata_kata}}
-            </b>
-          </li>
-        </ul>
+      <div class="row">
+        <div class="col-md-12">
+          <ul class="list-group">
+            <li class="list-group-item d-flex justify-content-between align-items-center"> Jumlah Berita:
+              <b>
+                {{narasumber.jumlah_berita}}
+              </b>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center"> Rata-rata Kata Per Berita:
+              <b>
+                {{narasumber.rerata_kata}}
+              </b>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   </div>
@@ -130,13 +132,13 @@
   <div class="py-5">
     <div class="container">
       <div class="row">
-        {% if daftar_honor.count > 0 %}
+        {% if daftar_honor %}
           {% for honor in daftar_honor %}
             <div class="col-md-12">
               <ul class="list-group">
                 <li class="list-group-item d-flex justify-content-between align-items-center"> Tanggal Diberikan:
-                  <b>{{honor.tgl_diberikan}}</b>,
-                  Jumlah Berita: <b>{{honor.jumlah_berita}}</b>,
+                  <b>{{honor.tgl_diberikan}}</b>
+                  Jumlah Berita: <b>{{honor.jumlah_berita}}</b>
                   Jumlah Gaji: <b>{{honor.jumlah_gaji}}</b>
                 </li>
               </ul>
@@ -167,13 +169,13 @@
   <div class="py-5">
     <div class="container">
       <div class="row">
-        {% if daftar_kupon.count > 0 %}
+        {% if daftar_kupon %}
           {% for kupon in daftar_kupon %}
             <div class="col-md-12">
               <ul class="list-group">
                 <li class="list-group-item d-flex justify-content-between align-items-center"> ID Kupon:
-                  <b>{{kupon.id}}</b>,
-                  Tanggal Diberikan: <b>{{kupon.tgl_diberikan}}</b>,
+                  <b>{{kupon.id}}</b>
+                  Tanggal Diberikan: <b>{{kupon.tgl_diberikan}}</b>
                   Tanggal Kadaluarsa: <b>{{kupon.tgl_kadaluarsa}}</b>
                 </li>
               </ul>

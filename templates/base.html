@@ -28,14 +28,16 @@
 		</header>
 		<content>
 			<div class="content-out">
-				{% for message in messages %}
-				<div class="alert alert-{message.tags}} alert-dismissible" role="alert" id="django-messages">
-					<button type="button" class="close" data-dismiss="alert" aria-label="Close" style="margin-right: 15px;">
-						<span aria-hidden="true">&times;</span>
-					</button>
-					{{message}}
+				<div class="container">
+					{% for message in messages %}
+					<div class="alert alert-{{message.tags}} alert-dismissible" role="alert" id="django-messages">
+						<button type="button" class="close" data-dismiss="alert" aria-label="Close" style="margin-right: 15px;">
+							<span aria-hidden="true">&times;</span>
+						</button>
+						{{message}}
+					</div>
+					{% endfor %}
 				</div>
-				{% endfor %}
 				{% block content %}{% endblock %}
 			</div>
 		</content>

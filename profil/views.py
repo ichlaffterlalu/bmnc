@@ -17,7 +17,12 @@ def index(request):
     except: staf = None
 
     daftar_honor = Honor.objects.raw("SELECT * FROM HONOR WHERE id_narasumber = %s;", [request.session.get("id_narasumber")])
+    try: daftar_honor[0]
+    except: daftar_honor = None
+
     daftar_kupon = Kupon.objects.raw("SELECT * FROM KUPON WHERE id_narasumber = %s;", [request.session.get("id_narasumber")])
+    try: daftar_kupon[0]
+    except: daftar_kupon = None
 
     response = {"narasumber" : narasumber, "universitas" : universitas, "dosen" : dosen, "mahasiswa" : mahasiswa, "staf" : staf,
                 "daftar_honor" : daftar_honor, "daftar_kupon" : daftar_kupon, "is_narasumber": 'id_narasumber' in request.session}
